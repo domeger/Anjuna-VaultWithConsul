@@ -89,12 +89,16 @@ We will than build the file and push it into the enclave environment.
 We will than verify the enclave is running.
 `anjuna-nitro-cli describe-enclaves | jq`
 
+![Vault Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/EnclaveStatus.png)
+
 **Step 7:**
 Verify you can communicate with your Vault instance
 `curl -s http://localhost:8200/v1/sys/health | jq -r `
 `export VAULT_ADDR='http://localhost:8200'`
 `export VAULT_TOKEN=`
 `vault status`
+
+![Vault Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/VaultStatus.png)
 
 **Step 8:**
 Verify that you can not write to the vault instance. The reason for this is we want to show you how we can seal the vault server from the minute it spins up. If you want to test writting to Vault+Consul please terminate the instance and try the steps below.
