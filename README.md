@@ -65,7 +65,7 @@ SKIP_SETCAP = true
 disable_mlock = true
 
 storage "consul" {
-**address = "192.168.127.254:8500"**
+address = "192.168.127.254:8500"
 path = "vault"
 }
 
@@ -123,7 +123,7 @@ SKIP_SETCAP = true
 disable_mlock = true
 
 storage "consul" {
-**address = "192.168.127.254:8500"**
+address = "192.168.127.254:8500"
 path = "vault"
 }
 
