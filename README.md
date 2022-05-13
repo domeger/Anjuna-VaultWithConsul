@@ -1,2 +1,165 @@
-# Anjuna-VaultWithConsul
-This is a quick start guide to getting Hashicorp Vault to be backed by Consol using AWS Nitro Enclave with the Anjuna Runtime Environment
+# Anjuna Security: Hashicorp Vault with Consul
+
+**Requirements:** Amazon AMI
+**Technologies:** Vault, Consul, Anjuna Runtime, and Docker
+**Instance Type:** m5.xlarge or higher instance
+
+# Instance Preperation 
+Complete the steps in our docs to be able to complete this step by step setup of Vault with Consul storage.
+
+**Getting Started:**
+[Anjuna Security Nitro Onboarding Tutorial](https://docs.anjuna.io/anjuna-nitro-runtime/anjuna-nitro/latest/getting_started/getting_the_runtime.html)
+
+# Consul Setup
+**Step 1:**
+`sudo yum install -y yum-utils`
+
+**Step 2:** 
+`sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo`
+
+**Step 3**
+`sudo yum -y install consul`
+
+**Step 4**
+Run the following command in a background process
+`consul agent -server -advertise=127.0.0.1 -data-dir=consul/data/ -bootstrap &`
+
+# Docker Setup
+**Step 1:**
+Installing Docker
+`sudo yum install docker`
+
+**Step 2:**
+Enabling Docker
+`sudo systemctl enable docker`
+
+**Step 3:**
+Starting Docker
+`sudo systemctl start docker`
+
+** Step 4:**
+Verifying Docker is running.
+`sudo systemctl status docker`
+
+# Vault Client Setup
+**Step 1:**
+`sudo yum install -y yum-utils`
+
+**Step 2:**
+`sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo`
+
+**Step 3:**
+`sudo yum -y install vault`
+
+# Vault Setup (Sealed Version)
+
+**Step 1:**
+Clone this repo to your /home/ec2-user/ instance and edit the config.json file.
+`vi config.json`
+
+**Step 2:**
+In the config file change localhost to 192.168.127.254 as this is the static ip of the enclave.
+
+SKIP_SETCAP = true
+disable_mlock = true
+
+storage "consul" {
+**address = "192.168.127.254:8500"**
+path = "vault"
+}
+
+listener "tcp" {
+address = ":8200"
+tls_disable = 1
+}
+
+**Step 3:**
+In this step were going to build the docker image.
+`docker build -t vault .`
+
+**Step 4:**
+Expose the port so the Enclave can talk to the EC2 Node
+`anjuna-nitro-userspace-netd-parent --expose 8200`
+
+**Step 5:**
+We will than build the file and push it into the enclave environment.
+`anjuna-nitro-cli build-enclave --docker-uri vault:latest --enclave-config-file enclave-config.yaml --output-file vault.eif`
+
+**Step 6:**
+We will than verify the enclave is running.
+`anjuna-nitro-cli describe-enclaves | jq`
+
+**Step 7:**
+Verify you can communicate with your Vault instance
+`curl -s http://localhost:8200/v1/sys/health | jq -r `
+`export VAULT_ADDR='http://localhost:8200'`
+`export VAULT_TOKEN=`
+`vault status`
+
+**Step 8:**
+Verify that you can not write to the vault instance. The reason for this is we want to show you how we can seal the vault server from the minute it spins up. If you want to test writting to Vault+Consul please terminate the instance and try the steps below.
+
+`anjuna-nitro-cli **terminate**-enclave --all`
+
+# Vault Setup (Un-Sealed Version)
+
+**Step 1:**
+Clone this repo to your /home/ec2-user/ instance and edit the config.json file.
+`vi config.json`
+
+**Step 2:**
+In the config file change localhost to 192.168.127.254 as this is the static ip of the enclave.
+
+SKIP_SETCAP = true
+disable_mlock = true
+
+storage "consul" {
+**address = "192.168.127.254:8500"**
+path = "vault"
+}
+
+listener "tcp" {
+address = ":8200"
+tls_disable = 1
+}
+
+**Step 3:**
+To enable write to Vault you will need to put it in Dev Mode, this is only used for testing, please refer to Vault configuration to properly setup the environment. Located in the Provided Dockerfile you will have to change server to dev to enable this feature.
+
+`sed -i 's/server/dev/g' Dockerfile`
+
+**Step 4:**
+In this step were going to build the docker image.
+`docker build -t vault .`
+
+**Step 5:**
+Expose the port so the Enclave can talk to the EC2 Node
+`anjuna-nitro-userspace-netd-parent --expose 8200`
+
+**Step 6:**
+This step will build your eif file that you will be using with the Nitro environment
+`anjuna-nitro-cli build-enclave --docker-uri vault:latest --enclave-config-file enclave-config.yaml --output-file vault.eif`
+
+**Step 7:**
+We will than build the file and push it into the enclave environment.
+`anjuna-nitro-cli build-enclave --docker-uri vault:latest --enclave-config-file enclave-config.yaml --output-file vault.eif`
+
+**Step 8:**
+We will than verify the enclave is running.
+`anjuna-nitro-cli describe-enclaves | jq`
+
+**Step 9:**
+Verify you can communicate with your Vault instance
+`curl -s http://localhost:8200/v1/sys/health | jq -r `
+`export VAULT_ADDR='http://localhost:8200'`
+`export VAULT_TOKEN=`
+`vault status`
+
+**Step 10:**
+Write to the Vault Instance
+`vault kv put secret/hello foo=world`
+
+**Step 11:**
+Get Key from Vault
+`vault kv get secret/hello`
+
