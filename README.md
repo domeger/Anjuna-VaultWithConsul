@@ -95,7 +95,7 @@ We will than build the file and push it into the enclave environment.
 We will than verify the enclave is running.
 `anjuna-nitro-cli describe-enclaves | jq`
 
-![Vault Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/EnclaveStatus.png)
+![Nitro Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/EnclaveStatus.png)
 
 **Step 7:**
 Verify you can communicate with your Vault instance
@@ -161,12 +161,16 @@ We will than build the file and push it into the enclave environment.
 We will than verify the enclave is running.
 `anjuna-nitro-cli describe-enclaves | jq`
 
+![Nitro Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/EnclaveStatus.png)
+
 **Step 9:**
 Verify you can communicate with your Vault instance
 `curl -s http://localhost:8200/v1/sys/health | jq -r `
 `export VAULT_ADDR='http://localhost:8200'`
 `export VAULT_TOKEN=`
 `vault status`
+
+![Vault Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/VaultStatus.png)
 
 **Step 10:**
 Write to the Vault Instance
