@@ -59,6 +59,7 @@ Clone this repo to your /home/ec2-user/ instance and edit the config.json file.
 
 **Step 2:**
 In the config file change localhost to 192.168.127.254 as this is the static ip of the enclave.
+```
 
 SKIP_SETCAP = true
 disable_mlock = true
@@ -72,6 +73,8 @@ listener "tcp" {
 address = ":8200"
 tls_disable = 1
 }
+
+```
 
 **Step 3:**
 In this step were going to build the docker image.
@@ -114,6 +117,8 @@ Clone this repo to your /home/ec2-user/ instance and edit the config.json file.
 **Step 2:**
 In the config file change localhost to 192.168.127.254 as this is the static ip of the enclave.
 
+
+```
 SKIP_SETCAP = true
 disable_mlock = true
 
@@ -126,6 +131,7 @@ listener "tcp" {
 address = ":8200"
 tls_disable = 1
 }
+```
 
 **Step 3:**
 To enable write to Vault you will need to put it in Dev Mode, this is only used for testing, please refer to Vault configuration to properly setup the environment. Located in the Provided Dockerfile you will have to change server to dev to enable this feature.
