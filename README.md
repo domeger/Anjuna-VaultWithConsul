@@ -1,3 +1,5 @@
+Included scripts are free software licenced under the terms of the GNU General Public License, version 3.
+
 # Anjuna Security: Hashicorp Vault with Consul
 
 **Requirements:** Amazon AMI
