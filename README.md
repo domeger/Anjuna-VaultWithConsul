@@ -108,10 +108,12 @@ We will than verify the enclave is running.
 
 **Step 7:**
 Verify you can communicate with your Vault instance
-`curl -s http://localhost:8200/v1/sys/health | jq -r `
-`export VAULT_ADDR='http://localhost:8200'`
-`export VAULT_TOKEN=`
-`vault status`
+```
+curl -s http://localhost:8200/v1/sys/health | jq -r 
+export VAULT_ADDR='http://localhost:8200'
+export VAULT_TOKEN=
+vault status
+```
 
 ![Vault Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/VaultStatus.png)
 
@@ -180,10 +182,11 @@ We will than verify the enclave is running.
 
 **Step 9:**
 Verify you can communicate with your Vault instance
-`curl -s http://localhost:8200/v1/sys/health | jq -r `
-`export VAULT_ADDR='http://localhost:8200'`
-`export VAULT_TOKEN=`
-`vault status`
+```curl -s http://localhost:8200/v1/sys/health | jq -r 
+export VAULT_ADDR='http://localhost:8200'
+export VAULT_TOKEN=
+vault status
+```
 
 ![Vault Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/VaultStatus.png)
 
