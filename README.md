@@ -120,7 +120,7 @@ vault status
 **Step 8:**
 Verify that you can not write to the vault instance. The reason for this is we want to show you how we can seal the vault server from the minute it spins up. If you want to test writting to Vault+Consul please terminate the instance and try the steps below.
 
-`anjuna-nitro-cli **terminate**-enclave --all`
+`anjuna-nitro-cli terminate-enclave --all`
 
 # Vault Setup (Un-Sealed Version)
 
