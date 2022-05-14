@@ -87,9 +87,18 @@ In this step were going to build the docker image.
 Expose the port so the Enclave can talk to the EC2 Node
 `anjuna-nitro-userspace-netd-parent --expose 8200`
 
+
 **Step 5:**
 We will than build the file and push it into the enclave environment.
 `anjuna-nitro-cli build-enclave --docker-uri vault:latest --enclave-config-file enclave-config.yaml --output-file vault.eif`
+
+Now Let Run the Enclave
+```
+anjuna-nitro-cli run-enclave \
+ --cpu-count 2 \
+ --memory 2048 \
+ --eif-path vault.eif
+ ```
 
 **Step 6:**
 We will than verify the enclave is running.
@@ -154,8 +163,14 @@ This step will build your eif file that you will be using with the Nitro environ
 `anjuna-nitro-cli build-enclave --docker-uri vault:latest --enclave-config-file enclave-config.yaml --output-file vault.eif`
 
 **Step 7:**
-We will than build the file and push it into the enclave environment.
-`anjuna-nitro-cli build-enclave --docker-uri vault:latest --enclave-config-file enclave-config.yaml --output-file vault.eif`
+Now Let Run the Enclave
+```
+anjuna-nitro-cli run-enclave \
+ --cpu-count 2 \
+ --memory 2048 \
+ --eif-path vault.eif
+ ```
+
 
 **Step 8:**
 We will than verify the enclave is running.
