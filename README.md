@@ -85,7 +85,7 @@ In this step were going to build the docker image.
 
 **Step 4:**
 Expose the port so the Enclave can talk to the EC2 Node
-`anjuna-nitro-userspace-netd-parent --expose 8200`
+`/opt/anjuna/nitro/bin/anjuna-nitro-netd-parent --expose 8200 --daemonize`
 
 
 **Step 5:**
@@ -158,7 +158,7 @@ In this step were going to build the docker image.
 
 **Step 5:**
 Expose the port so the Enclave can talk to the EC2 Node
-`anjuna-nitro-userspace-netd-parent --expose 8200`
+`/opt/anjuna/nitro/bin/anjuna-nitro-netd-parent --expose 8200 --daemonize`
 
 **Step 6:**
 This step will build your eif file that you will be using with the Nitro environment
