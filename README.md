@@ -118,85 +118,12 @@ vault status
 ![Vault Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/VaultStatus.png)
 
 **Step 8:**
-Verify that you can not write to the vault instance. The reason for this is we want to show you how we can seal the vault server from the minute it spins up. If you want to test writting to Vault+Consul please terminate the instance and try the steps below.
+Initialize the Vault Repo and make sure you copy the keys that are display on your screen, these will be necessary to unseal vault to access it.
+
+```vault operator init```
+
 
 `anjuna-nitro-cli terminate-enclave --all`
-
-# Vault Setup (Un-Sealed Version)
-
-**Step 1:**
-Clone this repo to your /home/ec2-user/ instance and edit the config.json file.
-`vi config.json`
-
-**Step 2:**
-In the config file change localhost to 192.168.127.254 as this is the static ip of the enclave.
-
-
-```
-SKIP_SETCAP = true
-disable_mlock = true
-
-storage "consul" {
-address = "192.168.127.254:8500"
-path = "vault"
-}
-
-listener "tcp" {
-address = ":8200"
-tls_disable = 1
-}
-```
-
-**Step 3:**
-To enable write to Vault you will need to put it in Dev Mode, this is only used for testing, please refer to Vault configuration to properly setup the environment. Located in the Provided Dockerfile you will have to change server to dev to enable this feature.
-
-`sed -i 's/server/dev/g' Dockerfile`
-
-**Step 4:**
-In this step were going to build the docker image.
-`docker build -t vault .`
-
-**Step 5:**
-Expose the port so the Enclave can talk to the EC2 Node
-`/opt/anjuna/nitro/bin/anjuna-nitro-netd-parent --expose 8200 --daemonize`
-
-**Step 6:**
-This step will build your eif file that you will be using with the Nitro environment
-`anjuna-nitro-cli build-enclave --docker-uri vault:latest --enclave-config-file enclave-config.yaml --output-file vault.eif`
-
-**Step 7:**
-Now Let Run the Enclave
-```
-anjuna-nitro-cli run-enclave \
- --cpu-count 2 \
- --memory 2048 \
- --eif-path vault.eif
- ```
-
-
-**Step 8:**
-We will than verify the enclave is running.
-`anjuna-nitro-cli describe-enclaves | jq`
-
-![Nitro Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/EnclaveStatus.png)
-
-**Step 9:**
-Verify you can communicate with your Vault instance
-```curl -s http://localhost:8200/v1/sys/health | jq -r 
-export VAULT_ADDR='http://localhost:8200'
-export VAULT_TOKEN=
-vault status
-```
-
-![Vault Status](https://github.com/domeger/Anjuna-VaultWithConsul/blob/main/VaultStatus.png)
-
-**Step 10:**
-Write to the Vault Instance
-`vault kv put secret/hello foo=world`
-
-**Step 11:**
-Get Key from Vault
-`vault kv get secret/hello`
 
 # Copying or Reusing
 
