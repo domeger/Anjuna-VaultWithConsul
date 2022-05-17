@@ -123,7 +123,10 @@ Initialize the Vault Repo and make sure you copy the keys that are display on yo
 ```vault operator init```
 
 
-`anjuna-nitro-cli terminate-enclave --all`
+**Optional:**
+Terminate the instance if your done testing.
+
+`anjuna-nitro-cli terminate-enclave`
 
 # Copying or Reusing
 
