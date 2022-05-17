@@ -5,7 +5,7 @@
 
 **Requirements:** Amazon AMI\
 **Technologies:** Vault, Consul, Anjuna Runtime, and Docker\
-**Instance Type:** m5.xlarge or higher instance\
+**Instance Type:** m5.xlarge or higher instance
 
 # Instance Preparation 
 Complete the steps in our docs to be able to complete this step by step setup of Vault with Consul storage.
