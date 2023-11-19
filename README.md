@@ -89,10 +89,10 @@ Expose the port so the Enclave can talk to the EC2 Node
 
 
 **Step 5:**
-We will than build the file and push it into the enclave environment.
+We will then build the file and push it into the enclave environment.
 `anjuna-nitro-cli build-enclave --docker-uri vault:latest --enclave-config-file enclave-config.yaml --output-file vault.eif`
 
-Now Let Run the Enclave
+Now Let's Run the Enclave
 ```
 anjuna-nitro-cli run-enclave \
  --cpu-count 2 \
